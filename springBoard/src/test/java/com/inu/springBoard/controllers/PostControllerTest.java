@@ -3,6 +3,7 @@ package com.inu.springBoard.controllers;
 import com.inu.springBoard.models.Post;
 import com.inu.springBoard.repositories.PostRepository;
 import com.inu.springBoard.services.PostService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,11 +33,21 @@ class PostControllerTest {
   @SpyBean
   private PostService postService;
 
-  @Test
-  void list() throws Exception {
+  @BeforeEach
+  void setupPostRepository() {
     given(postRepository.findAll())
         .willReturn(List.of(new Post(1L, "Bot", "Post #1", "Hi~")));
 
+    given(postRepository.getReferenceById(1L))
+        .willReturn(new Post(1L, "Bot", "Post #1", "Hi~"));
+
+    given(postRepository.save(any(Post.class)))
+        .willReturn(new Post(2L, "Tester", "New Post", "It's fun!"));
+
+  }
+
+  @Test
+  void list() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/posts"))
         .andExpect(status().isOk())
         .andExpect(content().string(
@@ -46,9 +57,6 @@ class PostControllerTest {
 
   @Test
   void create() throws Exception {
-    given(postRepository.save(any(Post.class)))
-        .willReturn(new Post(1L, "Tester", "New Post", "It's fun!"));
-
     mockMvc.perform(MockMvcRequestBuilders.post("/posts")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content("{" +
@@ -97,5 +105,11 @@ class PostControllerTest {
                 "\"body\":\"\"" +
                 "}"))
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void update() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/posts/1"))
+        .andExpect(status().isOk());
   }
 }
