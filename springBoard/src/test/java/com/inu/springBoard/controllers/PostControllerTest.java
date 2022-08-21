@@ -1,8 +1,11 @@
 package com.inu.springBoard.controllers;
 
+import com.inu.springBoard.dtos.PostDto;
+import com.inu.springBoard.services.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,8 +19,13 @@ class PostControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @SpyBean
+  private PostService postService;
+
   @Test
   void list() throws Exception {
+    postService.create(new PostDto("Bot", "Post #1", "Hi~"));
+
     mockMvc.perform(MockMvcRequestBuilders.get("/posts"))
         .andExpect(status().isOk())
         .andExpect(content().string(

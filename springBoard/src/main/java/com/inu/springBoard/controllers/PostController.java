@@ -1,6 +1,7 @@
 package com.inu.springBoard.controllers;
 
 import com.inu.springBoard.dtos.PostDto;
+import com.inu.springBoard.services.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +16,15 @@ import java.util.List;
 @RestController
 @CrossOrigin
 public class PostController {
+  private final PostService postService;
+
+  public PostController(PostService postService) {
+    this.postService = postService;
+  }
+
   @GetMapping("/posts")
   public List<PostDto> list() {
-    List<PostDto> posts = new ArrayList<>();
-    PostDto post = new PostDto(1L, "Inu", "Post #1", "...");
-    posts.add(post);
-
-    return posts;
+    return postService.posts();
   }
 
   @PostMapping("/posts")
@@ -29,8 +32,6 @@ public class PostController {
   public PostDto create(
       @RequestBody PostDto postDto
   ) {
-    // TODO: 게시물 목록 변경이 일어나야 함
-
-    return postDto;
+    return postService.create(postDto);
   }
 }
