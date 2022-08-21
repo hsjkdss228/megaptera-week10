@@ -34,4 +34,10 @@ public class PostController {
   ) {
     return postService.create(postDto);
   }
+
+  // TODO: get이 아니라 patch로 바뀌어야 함
+  @GetMapping("/posts/1")
+  public PostDto update() {
+    return postService.update();
+  }
 }

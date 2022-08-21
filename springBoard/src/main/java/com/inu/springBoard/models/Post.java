@@ -51,4 +51,8 @@ public class Post {
   public PostDto toDto() {
     return new PostDto(id, author, title, body);
   }
+
+  public void decorateTitle() {
+    title += "메롱";
+  }
 }

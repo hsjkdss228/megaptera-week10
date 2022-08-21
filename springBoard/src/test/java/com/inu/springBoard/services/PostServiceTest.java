@@ -11,6 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 class PostServiceTest {
   @Test
@@ -41,5 +43,23 @@ class PostServiceTest {
 
     assertThat(postDto.getId()).isNotNull();
     assertThat(postDto.getAuthor()).isEqualTo("Tester");
+  }
+
+  @Test
+  void update() {
+    Post post = spy(new Post(1L, "Author", "Title", "Body"));
+
+    PostRepository postRepository = mock(PostRepository.class);
+    given(postRepository.getReferenceById(1L))
+        .willReturn(post);
+
+    PostService postService = new PostService(postRepository);
+
+    PostDto postDto = postService.update();
+
+    assertThat(postDto).isNotNull();
+
+    verify(postRepository).getReferenceById(any(Long.class));
+    verify(post).decorateTitle();
   }
 }
