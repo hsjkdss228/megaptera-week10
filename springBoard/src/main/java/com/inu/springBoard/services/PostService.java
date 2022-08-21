@@ -5,7 +5,6 @@ import com.inu.springBoard.models.Post;
 import com.inu.springBoard.repositories.PostRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

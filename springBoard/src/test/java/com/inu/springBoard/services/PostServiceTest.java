@@ -1,10 +1,15 @@
 package com.inu.springBoard.services;
 
 import com.inu.springBoard.dtos.PostDto;
+import com.inu.springBoard.models.Post;
 import com.inu.springBoard.repositories.PostRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 class PostServiceTest {
@@ -12,20 +17,22 @@ class PostServiceTest {
   void posts() {
     PostRepository postRepository = mock(PostRepository.class);
 
+    given(postRepository.findAll())
+        .willReturn(List.of(
+            new Post(1L, "Tester", "New Post 1", "Hello~"),
+            new Post(2L, "Tester", "New Post 2", "Hello~")));
 
     PostService postService = new PostService(postRepository);
 
-    assertThat(postService.posts()).hasSize(0);
-
-    postService.create(new PostDto("Tester", "New Post", "Hello~"));
-
-    assertThat(postService.posts()).hasSize(1);
+    assertThat(postService.posts()).hasSize(2);
   }
 
   @Test
   void create() {
     PostRepository postRepository = mock(PostRepository.class);
 
+    given(postRepository.save(any(Post.class)))
+        .willReturn(new Post(1L, "Tester", "New Post", "Hello~"));
 
     PostService postService = new PostService(postRepository);
 

@@ -1,17 +1,23 @@
 package com.inu.springBoard.controllers;
 
-import com.inu.springBoard.dtos.PostDto;
+import com.inu.springBoard.models.Post;
 import com.inu.springBoard.repositories.PostRepository;
 import com.inu.springBoard.services.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,7 +26,7 @@ class PostControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @SpyBean
+  @MockBean
   private PostRepository postRepository;
 
   @SpyBean
@@ -28,7 +34,8 @@ class PostControllerTest {
 
   @Test
   void list() throws Exception {
-    postService.create(new PostDto("Bot", "Post #1", "Hi~"));
+    given(postRepository.findAll())
+        .willReturn(List.of(new Post(1L, "Bot", "Post #1", "Hi~")));
 
     mockMvc.perform(MockMvcRequestBuilders.get("/posts"))
         .andExpect(status().isOk())
@@ -39,16 +46,21 @@ class PostControllerTest {
 
   @Test
   void create() throws Exception {
+    given(postRepository.save(any(Post.class)))
+        .willReturn(new Post(1L, "Tester", "New Post", "It's fun!"));
+
     mockMvc.perform(MockMvcRequestBuilders.post("/posts")
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content("{" +
-                "\"author\":\"tester\"," +
+                "\"author\":\"Tester\"," +
                 "\"title\":\"New Post\"," +
                 "\"body\":\"It's fun!\"" +
                 "}"))
         .andExpect(status().isCreated())
         .andExpect(content().string(
             containsString("New Post")));
+
+    verify(postRepository).save(any(Post.class));
   }
 
   @Test
