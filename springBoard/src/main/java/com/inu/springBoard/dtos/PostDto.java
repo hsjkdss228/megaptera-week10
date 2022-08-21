@@ -16,13 +16,12 @@ public class PostDto {
   }
 
   public PostDto(String author, String title, String body) {
-    this.id = id;
     this.author = author;
     this.title = title;
     this.body = body;
   }
 
-  public PostDto(long id, String author, String title, String body) {
+  public PostDto(Long id, String author, String title, String body) {
     this.id = id;
     this.author = author;
     this.title = title;

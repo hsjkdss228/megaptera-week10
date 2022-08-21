@@ -18,5 +18,19 @@ class PostRepositoryTest {
     assertThat(postRepository.findAll()).hasSize(1);
   }
 
-  // TODO: save에서 id를 올바르게 지정해줘야 함
+  @Test
+  void save() {
+    PostRepository postRepository = new PostRepository();
+
+    Post post1 = postRepository.save(
+        new Post(null, "Author", "Title", "Body"));
+
+    Post post2 = postRepository.save(
+        new Post(null, "Author", "Title", "Body"));
+
+    assertThat(post1.id()).isNotNull();
+    assertThat(post2.id()).isNotNull();
+
+    assertThat(post1.id()).isNotEqualTo(post2.id());
+  }
 }
