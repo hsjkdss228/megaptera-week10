@@ -65,10 +65,4 @@ public class PostDto {
         "title: " + title + ", " +
         "body: " + body + ")";
   }
-
-//  public boolean isValid() {
-//    return !author.isBlank()
-//        && !title.isBlank()
-//        && !body.isBlank();
-//  }
 }

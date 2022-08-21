@@ -5,11 +5,13 @@ import com.inu.springBoard.repositories.PostRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 class PostServiceTest {
   @Test
   void posts() {
-    PostRepository postRepository = new PostRepository();
+    PostRepository postRepository = mock(PostRepository.class);
+
 
     PostService postService = new PostService(postRepository);
 
@@ -22,7 +24,8 @@ class PostServiceTest {
 
   @Test
   void create() {
-    PostRepository postRepository = new PostRepository();
+    PostRepository postRepository = mock(PostRepository.class);
+
 
     PostService postService = new PostService(postRepository);
 

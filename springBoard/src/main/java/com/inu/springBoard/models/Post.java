@@ -2,11 +2,25 @@ package com.inu.springBoard.models;
 
 import com.inu.springBoard.dtos.PostDto;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Post {
+  @Id
+  @GeneratedValue
   private Long id;
+
   private String author;
+
   private String title;
+
   private String body;
+
+  public Post() {
+
+  }
 
   public Post(Long id, String author, String title, String body) {
     this.id = id;
