@@ -50,4 +50,40 @@ class PostControllerTest {
         .andExpect(content().string(
             containsString("New Post")));
   }
+
+  @Test
+  void createWithBlankAuthor() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.post("/posts")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content("{" +
+                "\"author\":\"\"," +
+                "\"title\":\"New Post\"," +
+                "\"body\":\"It's fun!\"" +
+                "}"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void createWithBlankTitle() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.post("/posts")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content("{" +
+                "\"author\":\"123\"," +
+                "\"title\":\"\"," +
+                "\"body\":\"It's fun!\"" +
+                "}"))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void createWithBlankBody() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.post("/posts")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content("{" +
+                "\"author\":\"123\"," +
+                "\"title\":\"New Post\"," +
+                "\"body\":\"\"" +
+                "}"))
+        .andExpect(status().isBadRequest());
+  }
 }

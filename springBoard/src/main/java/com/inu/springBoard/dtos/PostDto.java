@@ -1,14 +1,18 @@
 package com.inu.springBoard.dtos;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class PostDto {
   private Long id;
 
+  @NotBlank
   private String author;
 
+  @NotBlank
   private String title;
 
+  @NotBlank
   private String body;
 
   public PostDto() {
@@ -61,4 +65,10 @@ public class PostDto {
         "title: " + title + ", " +
         "body: " + body + ")";
   }
+
+//  public boolean isValid() {
+//    return !author.isBlank()
+//        && !title.isBlank()
+//        && !body.isBlank();
+//  }
 }
