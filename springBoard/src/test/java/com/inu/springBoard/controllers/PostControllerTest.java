@@ -1,6 +1,7 @@
 package com.inu.springBoard.controllers;
 
 import com.inu.springBoard.dtos.PostDto;
+import com.inu.springBoard.repositories.PostRepository;
 import com.inu.springBoard.services.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest {
   @Autowired
   private MockMvc mockMvc;
+
+  @SpyBean
+  private PostRepository postRepository;
 
   @SpyBean
   private PostService postService;

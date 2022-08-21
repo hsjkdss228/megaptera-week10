@@ -1,5 +1,7 @@
 package com.inu.springBoard.dtos;
 
+import java.util.Objects;
+
 public class PostDto {
   private Long id;
 
@@ -41,5 +43,23 @@ public class PostDto {
 
   public String getBody() {
     return body;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    PostDto otherPostDto = (PostDto) other;
+    return Objects.equals(id, otherPostDto.id) &&
+        Objects.equals(author, otherPostDto.author) &&
+        Objects.equals(title, otherPostDto.title) &&
+        Objects.equals(body, otherPostDto.body);
+  }
+
+  @Override
+  public String toString() {
+    return "PostDto(" +
+        "id: " + id + ", " +
+        "author: " + author + ", " +
+        "title: " + title + ", " +
+        "body: " + body + ")";
   }
 }
