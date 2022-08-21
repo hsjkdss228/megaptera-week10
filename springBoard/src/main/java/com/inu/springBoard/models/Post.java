@@ -8,11 +8,18 @@ public class Post {
   private String title;
   private String body;
 
-  public Post(long id, String author, String title, String body) {
+  public Post(Long id, String author, String title, String body) {
     this.id = id;
     this.author = author;
     this.title = title;
     this.body = body;
+  }
+
+  public Post(Long id, Post other) {
+    this.id = id;
+    this.author = other.author;
+    this.title = other.title;
+    this.body = other.body;
   }
 
   public static Post of(PostDto postDto) {

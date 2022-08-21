@@ -24,6 +24,18 @@ class PostTest {
   }
 
   @Test
+  void copy() {
+    Post post1 = new Post(1L, "Tester", "Fun story", "Joke");
+    Post post2 = new Post(2L, "Tester", "Fun story", "Joke");
+
+    assertThat(post1.id()).isEqualTo(1L);
+    assertThat(post2.id()).isEqualTo(2L);
+
+    assertThat(post1.toDto())
+        .isEqualTo(new Post(post1.id(), post2).toDto());
+  }
+
+  @Test
   void createFromDto() {
     PostDto postDto = new PostDto(1L, "Tester", "Fun story", "Joke");
 

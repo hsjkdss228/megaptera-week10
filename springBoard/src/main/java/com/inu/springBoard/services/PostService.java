@@ -17,17 +17,15 @@ public class PostService {
   }
 
   public List<PostDto> posts() {
-    return postRepository.findAll().stream()
+    List<Post> posts = postRepository.findAll();
+
+    return posts.stream()
         .map(Post::toDto)
         .toList();
   }
 
   public PostDto create(PostDto postDto) {
-    // TODO: DTO >> 도메인 모델 변환 필요함
-    Post post
-        = new Post(1L, postDto.getAuthor(), postDto.getTitle(), postDto.getBody());
-
-    postRepository.save(post);
+    Post post = postRepository.save(Post.of(postDto));
 
     return post.toDto();
   }
